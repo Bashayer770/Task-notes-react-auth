@@ -9,6 +9,7 @@ import Note from "./pages/Note";
 import Users from "./pages/Users";
 import { useEffect, useState } from "react";
 import { checkToken } from "./api/auth";
+import UserContext from "./context/UserContext";
 
 function App() {
   const [user, setUser] = useState(false);
@@ -16,7 +17,7 @@ function App() {
   return (
     <div className="App font-mono ">
       <Navbar />
-      <userContext.Provider value={{ user, setUser }}>
+      <UserContext.Provider value={[user, setUser]}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/notes" element={<Notes />} />
@@ -25,7 +26,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/users" element={<Users />} />
         </Routes>
-      </userContext.Provider>
+      </UserContext.Provider>
     </div>
   );
 }

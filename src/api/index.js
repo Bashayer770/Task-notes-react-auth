@@ -5,11 +5,12 @@ const instance = axios.create({
   baseURL: "https://task-react-auth.herokuapp.com/api",
   // baseURL: "http://localhost:5000/api",
 });
+
 instance.interceptors.request.use(
   (config) => {
-    localStorage.getItem("token");
+    const token = localStorage.getItem("token");
     if (token) {
-      config.headers.Authorization = `bearer ${token}`;
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },

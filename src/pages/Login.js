@@ -1,13 +1,19 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { login } from "../api/auth";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [userInfo, setUserInfo] = useState({});
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const log_in = useMutation(() => login(userInfo), {
     onSuccess: () => queryClient.invalidateQueries(userInfo),
   });
+
+  if (!userInfo) {
+    return navigate("/");
+  }
 
   const handleChange = (e) => {
     setUserInfo((prev) => ({ ...prev, [e.target.name]: e.target.value }));

@@ -1,10 +1,15 @@
-import React, { useState } from "react";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import UserContext from "../context/UserContext";
+import { logout } from "../api/auth";
 
 const Navbar = () => {
   const [user, setUser] = useContext(UserContext);
+
+  function logOUT() {
+    logout();
+    setUser(false);
+  }
 
   return (
     <nav className="bg-gray-800">
@@ -38,22 +43,31 @@ const Navbar = () => {
                 Users
               </NavLink>
 
-              <>
-                {/* {user ? : */}
+              {user ? (
                 <NavLink
-                  to="/login"
+                  onClick={logOUT}
+                  to="/log-out"
                   className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                 >
-                  Login
+                  logout
                 </NavLink>
+              ) : (
+                <>
+                  <NavLink
+                    to="/login"
+                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    Login
+                  </NavLink>
 
-                <NavLink
-                  to="/register"
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Register
-                </NavLink>
-              </>
+                  <NavLink
+                    to="/register"
+                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    Register
+                  </NavLink>
+                </>
+              )}
             </div>
           </div>
         </div>
