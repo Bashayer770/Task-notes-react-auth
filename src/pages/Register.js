@@ -1,7 +1,20 @@
 import React, { useState } from "react";
+import { register } from "../api/auth";
+import {
+  QueryClient,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [userInfo, setUserInfo] = useState({});
+  const queryClient = useQueryClient();
+  const reg = useMutation({
+    mutationFn: () => register(userInfo),
+    onSuccess: () => queryClient.invalidateQueries(userInfo),
+  });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     if (e.target.name === "image") {
@@ -12,8 +25,10 @@ const Register = () => {
   };
 
   const handleFormSubmit = (e) => {
-    // e.preventDefault();
     // Add register logic here
+    e.preventDefault();
+    reg.mutate();
+    navigate("/users");
   };
 
   return (
@@ -89,6 +104,7 @@ const Register = () => {
             <button
               type="submit"
               className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+              onClick={handleFormSubmit}
             >
               Register
             </button>

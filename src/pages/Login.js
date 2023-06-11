@@ -1,13 +1,20 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
+import { login } from "../api/auth";
 
 const Login = () => {
   const [userInfo, setUserInfo] = useState({});
+  const queryClient = useQueryClient();
+  const log_in = useMutation(() => login(userInfo), {
+    onSuccess: () => queryClient.invalidateQueries(userInfo),
+  });
 
   const handleChange = (e) => {
     setUserInfo((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
   const handleFormSubmit = (e) => {
     e.preventDefault();
+    log_in.mutate();
     // Add login logic here
   };
 

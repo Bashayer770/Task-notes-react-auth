@@ -7,19 +7,25 @@ import Register from "./pages/Register";
 import Notes from "./pages/Notes";
 import Note from "./pages/Note";
 import Users from "./pages/Users";
+import { useEffect, useState } from "react";
+import { checkToken } from "./api/auth";
 
 function App() {
+  const [user, setUser] = useState(false);
+  useEffect(() => setUser(checkToken()));
   return (
     <div className="App font-mono ">
       <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/notes" element={<Notes />} />
-        <Route path="/notes/:noteId" element={<Note />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/users" element={<Users />} />
-      </Routes>
+      <userContext.Provider value={{ user, setUser }}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/notes" element={<Notes />} />
+          <Route path="/notes/:noteId" element={<Note />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/users" element={<Users />} />
+        </Routes>
+      </userContext.Provider>
     </div>
   );
 }
