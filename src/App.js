@@ -15,9 +15,9 @@ function App() {
   const [user, setUser] = useState(false);
   useEffect(() => setUser(checkToken()));
   return (
-    <div className="App font-mono ">
-      <Navbar />
-      <UserContext.Provider value={[user, setUser]}>
+    <UserContext.Provider value={[user, setUser]}>
+      <div className="App font-mono ">
+        <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/notes" element={<Notes />} />
@@ -26,8 +26,8 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/users" element={<Users />} />
         </Routes>
-      </UserContext.Provider>
-    </div>
+      </div>
+    </UserContext.Provider>
   );
 }
 
